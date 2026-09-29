@@ -1,0 +1,204 @@
+OBRAFÁCIL — GUIA DO PRIMEIRO ACESSO ATÉ A PRIMEIRA VENDA
+Sistema local demonstrativo em PHP, HTML, CSS, JavaScript e MySQL/MariaDB.
+
+1. INSTALAR OU ABRIR O XAMPP
+Se você já tem XAMPP com PHP 8.1 ou superior, use sua instalação.
+Se ainda não tem, acesse https://www.apachefriends.org/download.html
+Baixe XAMPP para Windows de 64 bits com PHP 8.2 e execute o instalador.
+Mantenha Apache, MySQL e phpMyAdmin selecionados. Use C:\xampp como destino.
+O módulo chamado MySQL no XAMPP utiliza MariaDB, compatível com este projeto.
+Não é necessário instalar Java, Node.js ou Composer para executar o sistema.
+Se já tem uma instalação com outros projetos, não reinstale por cima dela.
+
+2. EXTRAIR O SISTEMA
+Baixe ObraFacil-PHP-MySQL.zip e escolha Extrair tudo no Windows.
+Copie a pasta ferramentas que está dentro do ZIP para C:\xampp\htdocs\.
+O arquivo principal deve ficar exatamente em:
+C:\xampp\htdocs\ferramentas\index.php
+Evite deixar uma pasta ferramentas dentro de outra ferramentas.
+O banco está em C:\xampp\htdocs\ferramentas\database\banco.sql.
+Se já tem uma versão instalada, faça backup da pasta e do banco antes de
+substituí-la. As instruções abaixo são para uma instalação nova.
+
+3. INICIAR OS SERVIÇOS
+Abra o XAMPP Control Panel e clique Start em Apache e em MySQL.
+Os dois devem ficar verdes. Não precisa iniciar FileZilla, Mercury ou Tomcat.
+Mantenha os serviços funcionando enquanto usa o sistema.
+
+4. IMPORTAR O BANCO COMPLETO
+No navegador, abra http://localhost/phpmyadmin/.
+Na tela inicial do phpMyAdmin, clique Importar > Escolher arquivo.
+Selecione C:\xampp\htdocs\ferramentas\database\banco.sql.
+Mantenha formato SQL e codificação UTF-8, se essa opção aparecer.
+Clique Executar/Importar no final da página e aguarde a mensagem de sucesso.
+O arquivo cria automaticamente o banco ferramentas e suas 21 tabelas e calcula vendas líquidas diretamente nas consultas, sem exigir permissão para criar views.
+Inclui 15 ferramentas e três fornecedores fictícios vinculados aos produtos.
+Não é necessário criar tabelas manualmente nem importar todos os SQL da pasta.
+Os arquivos atualizar_*.sql são migrações para instalações antigas.
+Se já importou o SQL desta mesma versão com sucesso, não precisa repetir.
+Se importou uma versão anterior com 13 tabelas, faça a atualização descrita abaixo.
+Importar banco.sql não atualiza tabelas de uma instalação antiga; nesse caso,
+consulte a seção Atualização de versão anterior no LEIA-ME.md.
+
+5. CONFERIR A CONEXÃO
+Abra C:\xampp\htdocs\ferramentas\config.php no VS Code ou Bloco de Notas.
+A configuração padrão que acompanha o projeto é:
+
+<?php
+return [
+    'host' => '127.0.0.1',
+    'port' => 3306,
+    'database' => 'ferramentas',
+    'username' => 'root',
+    'password' => ''
+];
+
+Se seu MySQL usa senha, coloque essa senha entre as aspas de password.
+Se usa outra porta, ajuste port. Preserve a extensão .php ao salvar.
+A senha do MySQL é diferente da senha do funcionário no sistema.
+
+6. CRIAR O GERENTE
+Abra http://localhost/ferramentas/ no computador onde está o XAMPP.
+Preencha somente Nome, Cargo e Senha de 4 dígitos.
+No primeiro acesso, selecione Gerente e escolha exatamente quatro números.
+O primeiro cadastro deve ser Gerente para permitir cadastrar os funcionários.
+Não existe senha padrão. Os zeros iniciais são preservados.
+Clique Criar gerente e faça login com nome e os quatro números.
+Não abra index.php por duplo clique; use o endereço localhost.
+
+7. CADASTRAR FUNCIONÁRIOS E ATUALIZAR CONTAS ANTIGAS
+Como gerente, abra Usuários. O formulário tem três campos:
+Nome, Cargo (Gerente, Vendedor ou Estoquista) e Senha (quatro números).
+Clique Cadastrar usuário e forneça nome e senha ao funcionário.
+Não cadastre duas pessoas com o mesmo nome, mesmo em cargos diferentes.
+Diferencie com um sobrenome: João e João Silva, por exemplo.
+No login só aparecem Nome e Senha; o cargo vem automaticamente do cadastro.
+No topo de cada tela autenticada aparecem nome e cargo de quem está conectado.
+Para testar outro perfil, clique Sair e entre com nome e senha da conta.
+Se desejar, preencha os dados da loja em loja.php para os comprovantes.
+
+Se já instalou a versão anterior: faça backup, substitua os arquivos preservando
+config.php e loja.php e saia das sessões abertas. Com os lançamentos parados,
+importe database/atualizar_operacoes.sql no banco ferramentas pelo phpMyAdmin.
+Não reimporte banco.sql para atualizar uma instalação existente.
+Abra http://localhost/ferramentas/atualizar_acesso.php no próprio computador.
+Informe o nome salvo no cadastro, senha antiga e nova senha de 4 números.
+A mudança mantém o ID, as vendas e os relatórios. Repita para cada conta antiga.
+Se duas contas antigas têm nomes iguais, diferencie os nomes no banco
+antes dessa atualização. Não há conversão de senha sem conhecer a senha antiga.
+
+8. CONFERIR O CATÁLOGO
+Abra Ferramentas e confira os 15 itens de exemplo e seus fornecedores.
+As quantidades e os preços são fictícios e podem ser ajustados pelo gerente
+ou pelo estoquista. Alertas:
+- Estoque de 0 a 5: repor agora, vermelho.
+- Estoque de 6 a 10: precisa repor, amarelo.
+- Acima de 10: disponível.
+Para novas mercadorias, use Compras e entradas. Escolha um fornecedor e
+informe a quantidade e o custo de cada ferramenta, data e número do documento.
+Uma compra reúne vários itens do mesmo fornecedor, com um total único.
+As quantidades entram juntas; uma falha desfaz todo o documento.
+Use Ver itens para abrir cada compra. Não inclua as mesmas unidades também
+pelo ajuste manual de estoque, pois isso duplicaria a entrada.
+
+9. REGISTRAR A PRIMEIRA VENDA DE TESTE
+Entre como vendedor ou gerente. Em Abertura e fechamento, clique Abrir meu caixa.
+Depois abra Caixa presencial. Use Buscar ferramenta por ID para localizar o item;
+Mostrar todas restaura a lista. A busca preserva os itens já selecionados.
+Para o primeiro teste, pode usar Consumidor final.
+Para alimentar o ranking de clientes, cadastre antes a pessoa ou empresa em
+Clientes, com CPF/CNPJ válido, e selecione esse cliente no caixa.
+Escolha uma ferramenta com estoque e digite 1 na coluna Quantidade.
+Deixe os demais itens com quantidade 0 e confira o total calculado.
+Escolha Pix e marque a conferência do pagamento para simular a operação.
+Clique Concluir venda e gerar comprovante.
+A venda deve ser salva, o estoque deve cair uma unidade e o comprovante abrir.
+Use Imprimir / salvar PDF e escolha Salvar como PDF no navegador.
+Em Caixa presencial > Últimas vendas, use Abrir / reimprimir para consultar.
+Toda venda de teste fica salva. Se quiser desfazê-la, entre como gerente,
+abra o comprovante e cancele a venda. O estoque é devolvido e o histórico
+permanece identificado como cancelado, sem entrar nos rankings.
+
+PAGAMENTOS E COMPROVANTE DO PROJETO
+Pix e cartão são registros com conferência manual; não há cobrança automática.
+Boleto exige referência do documento e fica A receber até a baixa pelo gerente.
+O sistema não gera boleto bancário nem QR de pagamento Pix.
+A nota de venda é demonstrativa, sem valor fiscal, conforme o escopo do projeto.
+Não é NF-e/NFC-e autorizada. Nenhuma integração externa é necessária para o caixa.
+
+10. CONSULTAR E ENVIAR RELATÓRIOS
+Gerente: use Consultas para vendas, estoque e acessos/login.
+Use Rankings mensais para funcionários, fornecedores, clientes/empresas e
+ferramentas mais/menos vendidas. Escolha mês e relatório, clique Gerar relatório.
+Há Exportar CSV e Imprimir / salvar PDF.
+Compras de fornecedores alimentam o ranking de fornecedores; vendas alimentam
+os demais. Consumidor final não entra no ranking de clientes identificados.
+
+Vendedor: Meus relatórios > escolher tipo semanal/mensal e data >
+Gerar e visualizar > conferir > Enviar.
+Estoquista: o mesmo fluxo para os relatórios de estoque.
+Gerente: recebe os documentos em Relatórios recebidos.
+As semanas vão de segunda a domingo. Estoque inicial é capturado no dia 01
+antes das operações; final, no último dia real do mês após as operações;
+semanal, no domingo após as operações. Não há geração ou envio automáticos.
+As capturas de estoque representam o estoque no momento da geração, sem
+reconstrução retroativa. Os relatórios gerados preservam seus dados.
+As restrições de datas podem impedir gerar certos relatórios fora do fechamento.
+
+11. USAR NOVAMENTE E FECHAR
+Nos próximos dias, abra XAMPP, inicie Apache e MySQL e entre em
+http://localhost/ferramentas/. Use seu nome e senha de 4 números.
+Não reimporte o banco para abrir o sistema. Os dados ficam salvos no MySQL.
+Ao terminar: abra Abertura e fechamento, confira o líquido por Pix, cartão
+e boleto e feche seu caixa. Explique qualquer diferença. Depois clique Sair,
+e só então clique Stop em Apache e MySQL no XAMPP.
+Para backup: phpMyAdmin > banco ferramentas > Exportar > SQL > Executar.
+Guarde também uma cópia da pasta ferramentas. O ZIP do código não contém
+as vendas que você registrar posteriormente no seu banco local.
+
+SE ALGO NÃO ABRIR
+- Página não encontrada: confirme C:\xampp\htdocs\ferramentas\index.php
+  e o endereço http://localhost/ferramentas/.
+- Apache em outra porta, por exemplo 8080: use http://localhost:8080/ferramentas/
+  e http://localhost:8080/phpmyadmin/.
+- Erro de conexão/configuração do banco: confirme MySQL verde, banco importado,
+  usuário/senha/porta em config.php e nome ferramentas.
+- MySQL shutdown unexpectedly ou serviço sem iniciar: consulte o botão Logs.
+  Não apague a pasta mysql\data; ela contém seus bancos. Envie o erro para
+  identificar a causa antes de alterar portas ou arquivos.
+- Nome/senha recusados: use exatamente a conta criada no sistema, não root
+  do MySQL. Confira o nome e os quatro números. Várias tentativas erradas provocam
+  bloqueio temporário por IP (10 falhas em 15 minutos).
+- Acesso negado: confira se o cargo permite a página. Abra a instalação inicial
+  no próprio computador pelo localhost.
+- Rankings vazios: confira o mês selecionado e se há vendas/compras registradas.
+- Não mude permissões ou desative o controle de acesso para entrar nas telas;
+  use o perfil Gerente para a demonstração completa.
+
+CONFERÊNCIA DO PACOTE
+Login: nome e senha de quatro números. Cadastro: nome, cargo e senha.
+Esta entrega adiciona histórico de estoque, devoluções/trocas, abertura/fechamento,
+compras com vários itens e busca por ID. O banco exige a migração indicada.
+As validações anteriores de sintaxe PHP e de lógica estão descritas no LEIA-ME.
+Ainda é necessário validar instalação e execução real no MySQL/MariaDB do seu
+XAMPP. O ambiente de entrega não dispõe de servidor MySQL para esse teste.
+
+NOVOS FLUXOS
+Histórico de estoque: gerente/estoquista consultam por ID e período, com CSV/PDF.
+Alterar quantidade no cadastro exige motivo.
+Devoluções e trocas: gerente busca a venda, informa motivo e quantidades, marca
+se os itens podem voltar ao estoque e confirma o reembolso. Na troca seleciona
+também os novos itens. A diferença positiva é recebida; a negativa, reembolsada.
+Venda quitada e caixa aberto são necessários para troca. Boleto pendente admite
+devolução com abatimento do valor a receber. O novo comprovante fica vinculado.
+Os rankings descontam as devoluções, preservando a venda e seu histórico.
+O fechamento de caixa é preservado; reembolsos posteriores entram no caixa atual.
+
+ATUALIZAÇÃO DE QUEM JÁ TEM O SISTEMA
+1. Pare as operações e exporte o banco ferramentas como backup no phpMyAdmin.
+2. Copie a nova pasta preservando config.php e loja.php.
+3. No phpMyAdmin, selecione ferramentas e importe database/atualizar_operacoes.sql.
+4. Aguarde sucesso, saia da sessão e entre novamente.
+5. Abra seu caixa antes de vender. Não há necessidade de recadastrar contas.
+Se a base é mais antiga que a versão com compras/login por nome, veja a ordem
+completa das migrações no LEIA-ME.md. O histórico começa com o saldo da implantação.

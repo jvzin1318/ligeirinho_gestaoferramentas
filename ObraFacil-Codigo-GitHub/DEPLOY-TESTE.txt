@@ -1,0 +1,24 @@
+OBRAFÁCIL — TESTE GRATUITO PELO NAVEGADOR
+
+Não é necessário instalar XAMPP, PHP, MySQL, editor ou cliente FTP. O painel da hospedagem recebe os arquivos e o banco pelo navegador. Para enviar o projeto, salve este ZIP no computador e carregue-o pelo Gerenciador de Arquivos.
+
+ATENÇÃO: esta é uma cópia temporária de teste. Use somente funcionários, clientes e vendas fictícios. O endereço do subdomínio fica na internet; só quem souber as credenciais entrará no sistema. O comprovante é demonstrativo e não tem valor fiscal.
+
+PREPARAÇÃO NO PAINEL
+1. Crie uma conta de hospedagem grátis e um subdomínio de teste.
+2. Crie um banco MySQL e anote host, nome, usuário e senha exibidos no painel.
+3. No Gerenciador de Arquivos, envie este ZIP para a pasta htdocs e escolha extrair/enviar o conteúdo para htdocs.
+4. Edite config.php no gerenciador. Preencha host, nome, usuário e senha do banco.
+5. Troque install_key por uma chave longa e exclusiva. Não use a senha curta dos funcionários como chave.
+6. Abra phpMyAdmin pelo painel, selecione o banco criado e importe database/banco_hospedagem.sql.
+7. Ative HTTPS/SSL no painel e abra https://SEU-ENDERECO/instalar.php. Digite a chave e crie a primeira conta Gerente.
+8. Depois de criar o gerente, volte ao config.php e apague o valor de install_key. O instalador também redireciona depois da primeira conta.
+9. Entre, abra um caixa e use dados fictícios para testar vendas, devoluções, estoque e relatórios.
+
+COMPATIBILIDADE
+O sistema exige PHP 8.1+ com PDO MySQL, MariaDB 10.4+ (ou MySQL compatível), InnoDB e .htaccess. A hospedagem grátis informa MariaDB 10.6 em contas recentes; o primeiro teste real valida a compatibilidade.
+
+LIMITES DO PROJETO
+Se a importação anterior falhou por collation, exclua o banco parcialmente importado no painel MySQL, crie outro e importe esta versão corrigida do SQL.
+
+Não conecte Mercado Pago durante o teste. Não use dados reais de clientes, funcionários, fornecedores ou vendas. Não há emissão de NF-e/NFC-e nem cobrança real. Exporte cópias do banco: hospedagem gratuita não deve ser o único local de dados importantes.
